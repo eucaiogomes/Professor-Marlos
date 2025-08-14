@@ -1,18 +1,28 @@
 package com.senai.calculadora.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.senai.calculadora.dtos.*;
+import com.senai.calculadora.services.CalculadoraService;
 
 @RestController // presico passar essa anotacao para essa classe vira um componente e subir com
                 // o spring
 @RequestMapping("/calc") // eu posso colocar uma rota para acessar a classe
 public class CalculadoraController {
 
+    CalculadoraService service;
+
+    public CalculadoraController(CalculadoraService service) {
+        this.service = service;
+    }
+
     // --POST http://localhost:8080/cal/somar
     @PostMapping("/somar")
     public ResponseEntity<SaidaDto> somar(@RequestBody EntradaDto dados) {
-        
+
+        SaidaDto resultado = service.soma(dados);
+
         return ResponseEntity.ok().body(resultado);
     }
 
